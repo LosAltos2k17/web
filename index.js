@@ -14,8 +14,14 @@ var clarifapp = new Clarifai.App(
 
 app.get('/', function(req, res) {  
   console.log("test");
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'dash.ejs'));
 });
+
+app.get('/login', function(req, res) {  
+  console.log("test");
+  res.sendFile(path.join(__dirname, 'views', 'login.ejs'));
+});
+
 
 app.get('/image/:fileName', function (req, res) {
   res.sendFile(__dirname+'/images/' + req.params.fileName);
