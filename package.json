@@ -1,0 +1,14 @@
+{
+  "name": "losaltoshacks",
+  "version": "1.0.0",
+  "description": "Project from LA hacks",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-base64-image": "^1.0.3"
+  }
+}
