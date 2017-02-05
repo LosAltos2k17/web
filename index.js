@@ -43,6 +43,7 @@ app.get('/image/:fileName', function(req, res) {
 });
 
 app.post('/pic', function(req, res) {
+  console.log(req.query.pic);
   var decodedImage = new Buffer(req.query.pic, 'base64');
   var fileName = randomstring.generate();
   fs.writeFile('./images/' + fileName + '.jpg', decodedImage, function(err) {
@@ -64,9 +65,26 @@ app.post('/pic', function(req, res) {
               id: itemCode
             })
             .then(function(searchResults) {
-                console.log(searchResults.label.nutrients.filter(function (element) {//firebase.database().ref('/nihalstuff/').push
-                  return element.name == "Sugars" || element.name == "Calories" || element.name == "Cholesterol" || element.name == "Protein"|| element.name == "Sodium";
-                }));
+              var nutrient = {
+                nutrients: [],
+              };
+              nutrient.item = searchResults.label.serving.uom;
+              var nutrientBad = searchResults.label.nutrients.filter(function (element) {
+                return element.name == "Sugars" || element.name == "Calories" || element.name == "Cholesterol" || element.name == "Protein"|| element.name == "Sodium";
+              });
+              nutrientBad.forEach(function (element) {
+                nutrient["nutrients"].push({
+                  amount: element.value,
+                  nutrient: element.name
+                });
+              })
+              var currentDate = new Date();
+              var day = currentDate.getDate();
+              var month = currentDate.getMonth() + 1;
+              var year = currentDate.getYear();
+              nutrient.date =  month + "/" + day + "/" + year.toString().substring(1);
+              nutrient.time = currentDate.getHours() + ":" + currentDate.getMinutes();
+              firebase.database().ref('/meals/').push(nutrient);
               },
               function(err) {
                 console.log(err);
