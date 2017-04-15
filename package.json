@@ -10,5 +10,5 @@
   "license": "ISC",
   "dependencies": {
     "node-base64-image": "^1.0.3"
-  }
+  },
 }
